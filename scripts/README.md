@@ -30,7 +30,7 @@ $$
 (x - C_x)^2+(y - C_y)^2 + (z - C_z)^2 = r^2
 $$
 
-Expressing this using vector notation where $\mathbf{P}=(x, y, z)$ and $\bold{C}=(C_x, C_y, C_z)$ we can rewrite the equation above as follows
+Expressing this using vector notation where $\mathbf{P}=(x, y, z)$ and $\mathbf{C}=(C_x, C_y, C_z)$ we can rewrite the equation above as follows
 
 $$
 (\mathbf{P} - \mathbf{C}) \cdot (\mathbf{P} - \mathbf{C})=r^2
@@ -45,7 +45,9 @@ $$
 After we expand this we get the following. From this we can observe the equation becomes a quadratic.
 
 $$
+
 t^{2}\underbrace{\mathbf{b} \cdot \mathbf{b}}_{a} +t\underbrace{2\mathbf{b} \cdot (\mathbf{A} -\mathbf{C})}_{b} +\underbrace{(\mathbf{A} -\mathbf{C}) \cdot (\mathbf{A} -\mathbf{C}) -r^{2}}_{c} =0
+
 $$
 
 As we don't need to solve for $t$ but simply check if the equation holds we apply the concept of the discriminant in which the equation only for real numbers of the disciminant is $\geq 0$. The discriminant is given by:
@@ -53,3 +55,5 @@ As we don't need to solve for $t$ but simply check if the equation holds we appl
 $$
 b^2-4ac
 $$
+
+### `basic_normals.jl`
