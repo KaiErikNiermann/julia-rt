@@ -3,7 +3,7 @@
 
 [![Julia v1.4.1](https://img.shields.io/badge/Julia-v1.4.1-blue.svg)](https://julialang.org/downloads/oldreleases/#v141)
 
-This project is an exploration into ray tracing using the Julia programming language. I included the intermediary steps following the [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html) guide in the `scripts` folder, along with some explanation for each of the files to document anything of interest. The final ray tracer resides in the root directory of the project.
+This project is an exploration into ray tracing using the Julia programming language. I included the intermediary steps following the [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html) guide in the `scripts` folder, along with some explanation for each of the files to document anything of interest. The final ray tracer resides `src` folder.
 
 ## Motivation
 
