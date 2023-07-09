@@ -1,0 +1,15 @@
+# latexmk generated files
+**/*.aux
+**/*.fdb_latexmk
+**/*.synctex.gz
+**/*.log
+*/*.fls
+
+# env specific 
+.markdownlint.json
+.env
+.vscode
+
+# misc 
+*.tex
+*.pdf
