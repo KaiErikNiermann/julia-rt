@@ -57,6 +57,10 @@ $$
 ### `basic_normals.jl`
 
 ```math
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
 \begin{tikzpicture}
   \shade[ball color = gray!40, opacity = 0.4] (0,0) circle (2cm);
   
