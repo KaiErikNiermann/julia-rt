@@ -56,39 +56,4 @@ $$
 
 ### `basic_normals.jl`
 
-```math
-\usepackage{amsmath}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
 
-\begin{tikzpicture}
-  \shade[ball color = gray!40, opacity = 0.4] (0,0) circle (2cm);
-  
-  % outline
-  \draw (0,0) circle (2cm);
-  
-  % front filled line
-  \draw (-2,0) arc (180:360:2 and 0.6);
-  
-  % back dashed line
-  \draw[dashed] (2,0) arc (0:180:2 and 0.6);
-  
-  
-  \node[fill, circle, inner sep=1pt, label={left:$\vec{C}$}] at (0, 0) {};
-
-  % arrow from center to edge denoting radius
-  \draw[dashed] (0,0 ) -- node[above] {$r$} (2,0);
-
-  % draw dashed arrow from center pointing at a 45 degree angle out of circle 
-  \draw[dashed, ->] (0, 0) -- (45:2) node[above] {$\vec{P}$};
-
-  % draw arrow from the previous tip of above arrow even further outside
-  \draw[->] (45:2) -- (45:3.5) node[above] {$ \frac{\vec{P} - \vec{C}}{||\vec{P} - \vec{C}||} $};;
-
-  % label for the unit normal 
-  \node[align=center] at (4, 0) (normal) {\text{unit normal}};
-  % arrow to edge of normal
-  \draw[->,help lines,shorten >=3pt] (normal) .. controls (20:3) and (30:3) .. (45:3.5);
-
-\end{tikzpicture}
-```
