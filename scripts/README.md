@@ -55,5 +55,3 @@ b^2-4ac
 $$
 
 ### `basic_normals.jl`
-
-
