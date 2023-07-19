@@ -8,7 +8,7 @@ function at(r::ray, t::Float64)
 end 
 
 function ray_color(r::ray)
-    t = hit_sphere([0.0, 0.0, -1.0], 0.5, r)
+    t = hit(sphere_t([0, 0, -1], 0.5), r, 0, Inf, hit_record())
     if(t > 0.0)
         v = at(r, t) - [0, 0, -1]
         N = v/norm(v)
