@@ -1,20 +1,14 @@
-mutable struct foo
-    name::String
+a::Int64 = 1 
+b::Float64 = 2 
+
+sum = a + b
+
+println(sum)
+
+function foo()
+    for i in 1:1:10
+        println(i + rand(Int64, 1)[1] )
+    end
 end
 
-function a(f)
-    f2 = foo("hello")
-    f = f2
-end 
-
-function b(f)
-    println(f.name)
-end
-
-function main()
-    f = foo("world")
-    a(f)
-    b(f)
-end
-
-main()
+foo()
