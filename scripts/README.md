@@ -1,6 +1,6 @@
 # Ray Tracing in one weekend - Julia
 
-## Files
+## Basics
 
 ### `basic_ppm_gen.jl`
 
@@ -44,9 +44,9 @@ $$
 
 After we expand this we get the following. From this we can observe the equation becomes a quadratic.
 
-```math
-t^{2}\underbrace{\mathbf{b} \cdot \mathbf{b}}_{a} +t\underbrace{2\mathbf{b} \cdot (\mathbf{A} -\mathbf{C})}_{b} +\underbrace{(\mathbf{A} -\mathbf{C}) \cdot (\mathbf{A} -\mathbf{C}) -r^{2}}_{c} =0
-```
+$$
+t^{2}\underbrace{\mathbf{b} \cdot \mathbf{b}}_{a} +t2\underbrace{\mathbf{b} \cdot (\mathbf{A} -\mathbf{C})}_{b} +\underbrace{(\mathbf{A} -\mathbf{C}) \cdot (\mathbf{A} -\mathbf{C}) -r^{2}}_{c} =0
+$$
 
 As we don't need to solve for $t$ but simply check if the equation holds we apply the concept of the discriminant in which the equation only for real numbers of the disciminant is $\geq 0$. The discriminant is given by:
 
@@ -55,3 +55,25 @@ b^2-4ac
 $$
 
 ### `basic_normals.jl`
+
+Here we vizalize the normals of the surface of the sphere by assuming each normal $\mathbf{n}$ is of unit length then mapping this to the interval $[0, 1]$ and then finally mapping each $(x, y, z)$ component which is now in the range of $[0, 1]$ to some corresponding $(r, g, b)$ value. In our code this roughly translates to.
+
+To calculate the actual unit normal vector we simply make the observation that the unit normal vector is just the vector perpendicular to the surface at the point of intersection. So given sphere with center $C$, in our case $(0, 0, -1)$, and some intersection point $P$ has a normal given by $P - C$ and after normalizing this we get:
+
+$$
+\vec{N}=\frac{P - C}{|P - C|}
+$$
+
+## Advanced
+
+### `/basic_proj`
+
+#### How did I structure the project
+
+Here I started to try and build out some of the basics for the actual project. Up untill now we were just working with scripts but of course this does not scale very well for any larger additions. One of this first interesting questions when encountering a new language is how do you properly construct new projects, especially in reference to good import/include practices. After looking at some examples and discussions online I felt a nice approach, especially to avoid any annoyances, was to create a `main.jl` file in which I would have all of my `include`'s. Then running this file meant that the project would be construct in a manner akin to making a smaller script while still maintaining the modularity of separation of concerns.
+
+#### Abstractions
+
+Following along with the guide I also introduced the necessary abstractions. While you could use Julia to emulate the object oriented features applied in the guide such as abstract functions and function overloading I opted for a more straightforward approach.
+
+I created an abstract `hittable` type which acts as the supertype to all objects. And in turn allows me to keep a list of varying objects. For the `hit` methods, as opposed to using abstract functions, I used multiple dispatch in which I simply pass the required object as opposed to implementing the `hit` function as a class method for the object.

@@ -4,6 +4,8 @@ using LinearAlgebra
 v1 = [1, 2, 3]
 v2 = [4, 5, 6]
 
+println(typeof(v1))
+
 # vector additon
 println(v1 + v2)
 

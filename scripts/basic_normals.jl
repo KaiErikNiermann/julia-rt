@@ -6,20 +6,20 @@ struct ray
     direction::Vector{Float64}
 end
 
-function at(r::ray, t::Float64) 
+function at(r::ray, t::Float64)::Vector{Float64} 
     r.origin + t * r.direction
 end 
 
 function hit_sphere(center, radius, r::ray)
     oc = r.origin - center
     a = dot(r.direction, r.direction)
-    b = 2.0 * dot(oc, r.direction)
+    half_b = dot(oc, r.direction)
     c = dot(oc, oc) - radius^2
-    discriminant = b^2 - 4 * a * c
+    discriminant = half_b^2 - a * c
     if(discriminant < 0)
         return -1.0
     else 
-        return (-b - sqrt(discriminant)) / (2.0 * a)
+        return (-half_b - sqrt(discriminant)) / (a)
     end
 end
 
@@ -27,7 +27,7 @@ function ray_color(r::ray)
     t = hit_sphere([0.0, 0.0, -1.0], 0.5, r)
     if(t > 0.0)
         v = at(r, t) - [0, 0, -1]
-        N = v/norm(v)
+        N = v/norm(v)   
         res = 0.5 * [N[1] + 1, N[2] + 1, N[3] + 1]
         return color(res[1], res[2], res[3])
     end
