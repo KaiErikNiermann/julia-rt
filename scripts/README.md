@@ -44,9 +44,9 @@ $$
 
 After we expand this we get the following. From this we can observe the equation becomes a quadratic.
 
-$$
+```math
 t^{2}\underbrace{\mathbf{b} \cdot \mathbf{b}}_{a} +t2\underbrace{\mathbf{b} \cdot (\mathbf{A} -\mathbf{C})}_{b} +\underbrace{(\mathbf{A} -\mathbf{C}) \cdot (\mathbf{A} -\mathbf{C}) -r^{2}}_{c} =0
-$$
+```
 
 As we don't need to solve for $t$ but simply check if the equation holds we apply the concept of the discriminant in which the equation only for real numbers of the disciminant is $\geq 0$. The discriminant is given by:
 
