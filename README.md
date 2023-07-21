@@ -10,7 +10,7 @@ This project is an exploration into ray tracing using the Julia programming lang
 There are various reasons I've wanted to do this.
 For a while I have been interested in Julia and I thought this project would be a nice way to learn the language.
 Additionally I thought this would be a nice way to solidify certain concepts in linear algebra and geometry.
-And finally there is the obvious aspect of gaining some nice insights into the basics of ray tracing.
+And finally there is the obvious aspect of gaining some nice insights into the basics of ray tracing and computer graphics.
 
 ## References
 
