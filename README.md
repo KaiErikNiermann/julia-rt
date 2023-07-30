@@ -12,6 +12,26 @@ For a while I have been interested in Julia and I thought this project would be 
 Additionally I thought this would be a nice way to solidify certain concepts in linear algebra and geometry.
 And finally there is the obvious aspect of gaining some nice insights into the basics of ray tracing and computer graphics.
 
+## Progression
+
+### Basic sphere
+
+Generated with `julia scripts/basic_sphere.jl`
+
+![sphere](assets/red_sphere.png)
+
+### Surface normals
+
+Generated with `julia scripts/basic_normals`
+
+![normals](assets/basic_normals.png)
+
+### Surface normals with AA
+
+Generated with `julia scripts/basic_proj/main.jl`
+
+![normals_w_AA](assets/normals_with_AA.png)
+
 ## References
 
 - [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
