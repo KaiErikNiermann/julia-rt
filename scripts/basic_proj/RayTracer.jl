@@ -1,4 +1,4 @@
-using Base
+import Base: +, -
 
 # Rendering code
 struct color
@@ -24,30 +24,50 @@ function ray_color(r::ray, world::hittable_list)::color
     color((1.0 - t) * [1.0, 1.0, 1.0] + t * [0.5, 0.7, 1.0])
 end
 
+function my_clamp(x::Float64, min::Float64, max::Float64)::Float64
+    if(x < min)
+        return min
+    end
+    if(x > max)
+        return max
+    end
+    return x
+end
+
 function write_color(file, c::color)
     scale = 1.0 / samples_per_pixel
 
     r = c.r * scale
     g = c.g * scale
     b = c.b * scale
-    
-    write(file, string(256 * clamp(r, 0, 0.999), " "
-                     , 256 * clamp(g, 0, 0.999), " "
-                     , 256 * clamp(b, 0, 0.999), "\n"))
+
+    write(file, string(256 * my_clamp(r, 0.0, 0.999), " "
+                     , 256 * my_clamp(g, 0.0, 0.999), " "
+                     , 256 * my_clamp(b, 0.0, 0.999), "\n"))
+end
+
+function random_double()::Float64
+    rand(Uniform(0.0, 1.0))
+end
+
+function random_double(min::Float64, max::Float64)::Float64
+    rand(Uniform(min, max))
 end
 
 function gen_img(width, height, file, world::hittable_list)
+    sum = 1 + 1
     write(file, "P3\n$width $height\n255\n")
     for j in height-1:-1:0
         println(stderr, "Scanlines remaining: $j")
         for i in 0:1:width-1
             pixel_color = color([0.0, 0.0, 0.0])
             for s in 1:1:samples_per_pixel
-                u = (i + rand(Int64, 1)[1] ) / (width - 1)
-                v = (j + rand(Int64, 1)[1] ) / (height - 1)
-                r = cam.get_ray(u, v)
+                u = (Float64(i) + random_double() ) / (width - 1)
+                v = (Float64(j) + random_double() ) / (height - 1)
+                r = get_ray(cam, u, v)
                 pixel_color += ray_color(r, world)
             end
+            write_color(file, pixel_color)
         end
     end
 end
@@ -67,5 +87,5 @@ Base.push!(world.objects, sphere([0, -100.5, -1], 100))
 # camera 
 cam = camera()
 
-file = open("test.ppm", "w")
+file = open("image.ppm", "w")
 gen_img(width, height, file, world)

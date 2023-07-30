@@ -1,4 +1,6 @@
+using Base
 using LinearAlgebra
+using Distributions
 
 include("ray.jl")
 include("hittable.jl")
