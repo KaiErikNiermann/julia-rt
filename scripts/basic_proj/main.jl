@@ -4,6 +4,7 @@ using Distributions
 
 include("util.jl")
 include("ray.jl")
+include("material.jl")
 include("hittable.jl")
 include("sphere.jl")
 include("hittable_list.jl")

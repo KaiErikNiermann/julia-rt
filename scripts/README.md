@@ -70,10 +70,20 @@ $$
 
 #### How did I structure the project
 
-Here I started to try and build out some of the basics for the actual project. Up untill now we were just working with scripts but of course this does not scale very well for any larger additions. One of this first interesting questions when encountering a new language is how do you properly construct new projects, especially in reference to good import/include practices. After looking at some examples and discussions online I felt a nice approach, especially to avoid any annoyances, was to create a `main.jl` file in which I would have all of my `include`'s. Then running this file meant that the project would be construct in a manner akin to making a smaller script while still maintaining the modularity of separation of concerns.
+Here I started to try and build out some of the basics for the actual project. Up untill now we were just working with scripts but of course this does not scale very well for any larger additions. One of this first interesting questions when encountering a new language is how do you properly structure new projects, especially in reference to good import/include practices. After looking at some examples and discussions online I felt a nice approach, especially to avoid things like circular dependencies, was to create a `main.jl` file in which I would have all of my `include`'s. Then running this file meant that the project would be construct in a manner akin to making a smaller script while still maintaining the modularity of separation of concerns.
 
 #### Abstractions
 
 Following along with the guide I also introduced the necessary abstractions. While you could use Julia to emulate the object oriented features applied in the guide such as abstract functions and function overloading I opted for a more straightforward approach.
 
 I created an abstract `hittable` type which acts as the supertype to all objects. And in turn allows me to keep a list of varying objects. For the `hit` methods, as opposed to using abstract functions, I used multiple dispatch in which I simply pass the required object as opposed to implementing the `hit` function as a class method for the object.
+
+Similarly for materials there is the abstract `materials` type of which `metal` and `lambertian` are a subtype. Then to simulate the different types of scattering (specular and diffuse) I implemented the respective scatter functions. In `hittable.jl`.
+
+### Scattering
+
+#### Specular
+
+#### Diffuse
+
+### Notes

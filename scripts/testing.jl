@@ -1,14 +1,20 @@
-a::Int64 = 1 
-b::Float64 = 2 
-
-sum = a + b
-
-println(sum)
-
-function foo()
-    for i in 1:1:10
-        println(i + rand(Int64, 1)[1] )
-    end
+mutable struct num
+    n::Float64
 end
 
-foo()
+function foo1(n)
+    n += 10
+end
+
+function foo2(n::num)
+    n.n += 10
+end
+
+a = num(10)
+
+foo1(a.n)
+println(a.n)
+
+foo2(a)
+println(a.n)
+

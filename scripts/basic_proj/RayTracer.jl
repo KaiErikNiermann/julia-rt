@@ -1,15 +1,6 @@
 import Base: +, -, *
 
 # Rendering code
-struct color
-    r::Float64
-    g::Float64
-    b::Float64
-    function color(c::Vector{Float64})
-        new(c[1], c[2], c[3])
-    end
-end
-
 function +(c1::color, c2::color)::color
     color([c1.r + c2.r, c1.g + c2.g, c1.b + c2.b])
 end
@@ -18,8 +9,12 @@ function *(t::Float64, c::color)::color
     color([t * c.r, t * c.g, t * c.b])
 end
 
+function *(c1::color, c2::color)::color
+    color([c1.r * c2.r, c1.g * c2.g, c1.b * c2.b])
+end
+
 function ray_color(r::ray, world::hittable_list, depth)::color
-    rec = hit_record([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0, false)
+    rec = hit_record()
 
     if(depth <= 0)
         return color([0.0, 0.0, 0.0])
@@ -27,9 +22,11 @@ function ray_color(r::ray, world::hittable_list, depth)::color
 
     # 0.001 to avoid shadow acne
     if(hit!(world, r, 0.001, Inf, rec))
-        # target = rec.p + rec.normal + random_unit_vector()
-        target = rec.p + random_in_hemisphere(rec.normal)
-        return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1)
+        sd = scatter_data(color(), ray())
+        if(scatter(rec.mat, r, rec, sd))
+            return sd.attenuation * ray_color(sd.scattered, world, depth - 1)
+        end
+        return color([0.0, 0.0, 0.0])
     end
     unit_direction = r.direction/norm(r.direction)
     t = 0.5 * (unit_direction[1] + 1.0)
@@ -75,8 +72,15 @@ println(stderr, "width: $width, height: $height")
 
 # world 
 world = hittable_list()
-Base.push!(world.objects, sphere([0, 0, -1], 0.5))
-Base.push!(world.objects, sphere([0, -100.5, -1], 100))
+ground_materal = lambertian(color([0.8, 0.8, 0.0]))
+center_material = lambertian(color([0.7, 0.3, 0.3]))
+left_material = metal(color([0.8, 0.8, 0.8]))
+right_material = metal(color([0.8, 0.6, 0.2]))
+
+push!(world.objects, sphere([0.0, -100.5, -1.0], 100.0, ground_materal))
+push!(world.objects, sphere([0.0, 0.0, -1.0], 0.5, center_material))
+push!(world.objects, sphere([-1.0, 0.0, -1.0], 0.5, left_material))
+push!(world.objects, sphere([1.0, 0.0, -1.0], -0.4, left_material))
 
 # camera 
 cam = camera()
