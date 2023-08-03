@@ -3,6 +3,7 @@ struct camera
     viewport_height::Float64
     viewport_width::Float64
     focal_length::Float64
+
     origin::Vector{Float64}
     horizontal::Vector{Float64}
     vertical::Vector{Float64}
@@ -21,7 +22,6 @@ function camera()
 
     camera(aspect_ratio, viewport_height, viewport_width, focal_length, origin, horizontal, vertical, lower_left_corner)
 end
-
 
 function get_ray(cam::camera, u::Float64, v::Float64)
     ray(cam.origin, cam.lower_left_corner + (u * cam.horizontal) + (v * cam.vertical) - cam.origin)

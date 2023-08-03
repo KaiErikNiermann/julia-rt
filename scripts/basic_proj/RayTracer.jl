@@ -80,7 +80,7 @@ right_material = metal(color([0.8, 0.6, 0.2]))
 push!(world.objects, sphere([0.0, -100.5, -1.0], 100.0, ground_materal))
 push!(world.objects, sphere([0.0, 0.0, -1.0], 0.5, center_material))
 push!(world.objects, sphere([-1.0, 0.0, -1.0], 0.5, left_material))
-push!(world.objects, sphere([1.0, 0.0, -1.0], -0.4, left_material))
+push!(world.objects, sphere([1.0, 0.0, -1.0], 0.5, right_material))
 
 # camera 
 cam = camera()
