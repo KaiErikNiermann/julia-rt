@@ -15,6 +15,7 @@ function hit!(s::sphere, r::ray, t_min::Float64, t_max::Float64, rec::hit_record
 
     sqrtd = sqrt(discriminant)
     
+    # Nearest root that lies in the acceptable range
     root = (-half_b - sqrtd) / a
     if(root < t_min || root > t_max)
         root = (-half_b + sqrtd) / a

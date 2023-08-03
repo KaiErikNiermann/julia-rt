@@ -28,9 +28,11 @@ Generated with `julia scripts/basic_normals`
 
 ### Surface normals with AA
 
-Generated with `julia scripts/basic_proj/main.jl`
-
 ![normals_w_AA](assets/normals_with_AA.png)
+
+### Lambertian
+
+![lambertian](assets/correct_lambertian.png)
 
 ## References
 

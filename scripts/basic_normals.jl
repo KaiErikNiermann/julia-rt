@@ -24,9 +24,9 @@ function hit_sphere(center, radius, r::ray)
 end
 
 function ray_color(r::ray)
-    t = hit_sphere([0.0, 0.0, -1.0], 0.5, r)
+    t = hit_sphere([0.0, 0.0, -1], 0.5, r)
     if(t > 0.0)
-        v = at(r, t) - [0, 0, -1]
+        v = at(r, t) - [0.0, 0.0, -1.0]
         N = v/norm(v)   
         res = 0.5 * [N[1] + 1, N[2] + 1, N[3] + 1]
         return color(res[1], res[2], res[3])

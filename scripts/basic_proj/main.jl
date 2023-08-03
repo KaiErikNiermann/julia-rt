@@ -2,6 +2,7 @@ using Base
 using LinearAlgebra
 using Distributions
 
+include("util.jl")
 include("ray.jl")
 include("hittable.jl")
 include("sphere.jl")
