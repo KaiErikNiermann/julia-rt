@@ -63,12 +63,18 @@ function gen_img(width, height, file, world::hittable_list)
 end
 
 # image 
-aspect_ratio = 3 / 2
-width = 200
+# aspect_ratio = 3 / 2
+# width = 1200
+# height = trunc(Int, width / aspect_ratio)
+# samples_per_pixel = 500
+# max_depth = 50
+# println(stderr, "width: $width, height: $height")
+
+aspect_ratio = 16.0 / 9.0 
+width = 400
 height = trunc(Int, width / aspect_ratio)
 samples_per_pixel = 50
 max_depth = 50
-println(stderr, "width: $width, height: $height")
 
 # world 
 
@@ -112,16 +118,31 @@ function final_scene()
     world
 end
 
-world = final_scene()
+function basic_scene()
+    world = hittable_list()
+    ground_materal = lambertian(color([0.8, 0.8, 0.0]))
+    center_material = lambertian(color([0.1, 0.2, 0.5]))
+    left_material= dielectric(1.5)
+    right_material = metal(color([0.8, 0.6, 0.2]), 0.0)
 
-lookfrom = [13.0, 2.0, 3.0]
-lookat = [0.0, 0.0, 0.0]
-vup = [0.0, 1.0, 0.0]
-dist_to_focus = 10.0
-aperture = 0.1
+    push!(world.objects, sphere([0.0, -100.5, -1.0], 100.0, ground_materal))
+    push!(world.objects, sphere([0.0, 0.0, -1.0], 0.5, center_material))
+    push!(world.objects, sphere([-1.0, 0.0, -1.0], 0.5, left_material))
+    push!(world.objects, sphere([-1.0, 0.0, -1.0], -0.45, left_material))
+    push!(world.objects, sphere([1.0, 0.0, -1.0], 0.5, right_material))
+    world
+end
 
-# camera 
-cam = camera(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus)
+# world = final_scene()
+world = basic_scene()
+
+# cam = camera(
+#     [13.0, 2.0, 3.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0], 20, 16.0 / 9.0, 10.0, 0.1
+# )
+
+cam = camera(
+    [3, 3, 2], [0, 0, -1], [0, 1, 0], 20, 16.0 / 9.0, 2, norm([3, 3, 2] - [0, 0, -1])
+)
 
 file = open("image.ppm", "w")
-ProfileView.@profview gen_img(width, height, file, world)
+@time gen_img(width, height, file, world)

@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 Example = "7876af07-990d-54b4-ab0e-23690620f79a"
 ProfileView = "c46f51b8-102a-5cf2-8d2c-8597cb0e0da7"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 UpdateJulia = "770da0de-323d-4d28-9202-0e205c1e0aff"
 
 [compat]

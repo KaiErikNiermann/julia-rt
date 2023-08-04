@@ -3,6 +3,7 @@ using LinearAlgebra
 using Distributions
 using Profile
 using ProfileView
+using StaticArrays
 
 include("util.jl")
 include("ray.jl")
