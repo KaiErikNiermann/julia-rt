@@ -1,20 +1,5 @@
-mutable struct num
-    n::Float64
-end
+a = 0.5
 
-function foo1(n)
-    n += 10
-end
+b = 0.2
 
-function foo2(n::num)
-    n.n += 10
-end
-
-a = num(10)
-
-foo1(a.n)
-println(a.n)
-
-foo2(a)
-println(a.n)
-
+println(min(a, b))

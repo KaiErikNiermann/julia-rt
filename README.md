@@ -34,6 +34,10 @@ Generated with `julia scripts/basic_normals`
 
 ![lambertian](assets/correct_lambertian.png)
 
+### Fuzzed metals
+
+![fuzzed_metal](assets/fuzzed_metals.png)
+
 ## References
 
 - [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)

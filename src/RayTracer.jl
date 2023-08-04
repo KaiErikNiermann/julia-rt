@@ -50,23 +50,21 @@ function gen_img(width, height, file, world::hittable_list)
     for j in height-1:-1:0
         println(stderr, "Scanlines remaining: $j")
         for i in 0:1:width-1
-            @profile begin
-                pixel_color = color()
-                for s in 1:1:samples_per_pixel
-                    u = (Float64(i) + random_double() ) / (width - 1)
-                    v = (Float64(j) + random_double() ) / (height - 1)
-                    r = get_ray(cam, u, v)
-                    pixel_color += ray_color(r, world, max_depth)
-                end
-                write_color(file, pixel_color)
+            pixel_color = color()
+            for s in 1:1:samples_per_pixel
+                u = (Float64(i) + random_double() ) / (width - 1)
+                v = (Float64(j) + random_double() ) / (height - 1)
+                r = get_ray(cam, u, v)
+                pixel_color += ray_color(r, world, max_depth)
             end
-        end
+            write_color(file, pixel_color)
+    end
     end
 end
 
 # image 
 aspect_ratio = 3 / 2
-width = 400
+width = 200
 height = trunc(Int, width / aspect_ratio)
 samples_per_pixel = 50
 max_depth = 50
@@ -114,23 +112,7 @@ function final_scene()
     world
 end
 
-function basic_scene()
-    world = hittable_list()
-    ground_materal = lambertian(color([0.8, 0.8, 0.0]))
-    center_material = lambertian(color([0.1, 0.2, 0.5]))
-    left_material= dielectric(1.5)
-    right_material = metal(color([0.8, 0.6, 0.2]), 0.0)
-
-    push!(world.objects, sphere([0.0, -100.5, -1.0], 100.0, ground_materal))
-    push!(world.objects, sphere([0.0, 0.0, -1.0], 0.5, center_material))
-    push!(world.objects, sphere([-1.0, 0.0, -1.0], 0.5, left_material))
-    push!(world.objects, sphere([-1.0, 0.0, -1.0], -0.4, left_material))
-    push!(world.objects, sphere([1.0, 0.0, -1.0], 0.5, right_material))
-    world
-end
-
-# world = final_scene()
-world = basic_scene()
+world = final_scene()
 
 lookfrom = [13.0, 2.0, 3.0]
 lookat = [0.0, 0.0, 0.0]
@@ -142,4 +124,4 @@ aperture = 0.1
 cam = camera(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus)
 
 file = open("image.ppm", "w")
-@profview gen_img(width, height, file, world)
+ProfileView.@profview gen_img(width, height, file, world)
