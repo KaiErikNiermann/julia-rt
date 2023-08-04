@@ -14,19 +14,20 @@ function *(c1::color, c2::color)::color
 end
 
 function ray_color(r::ray, world::hittable_list, depth)::color
-    rec = hit_record()
+    rec = rec_buf
+    def_color = color(SA_F64[0.0, 0.0, 0.0])
 
     if(depth <= 0)
-        return color(SA_F64[0.0, 0.0, 0.0])
+        return def_color
     end
-
+    
     # 0.001 to avoid shadow acne
     if(hit!(world, r, 0.001, Inf, rec))
-        sd = scatter_data(color(), ray())
+        sd = sd_buf
         if(scatter(rec.mat, r, rec, sd))
             return sd.attenuation * ray_color(sd.scattered, world, depth - 1)
         end
-        return color(SA_F64[0.0, 0.0, 0.0])
+        return def_color
     end
     unit_direction = r.direction/norm(r.direction)
     t = 0.5 * (unit_direction[1] + 1.0)
@@ -50,15 +51,15 @@ function gen_img(width, height, file, world::hittable_list)
     for j in height-1:-1:0
         println(stderr, "Scanlines remaining: $j")
         for i in 0:1:width-1
-            pixel_color = color()
+            pixel_color = color(SA_F64[0.0, 0.0, 0.0])
             for s in 1:1:samples_per_pixel
-                u = (Float64(i) + random_double() ) / (width - 1)
-                v = (Float64(j) + random_double() ) / (height - 1)
+                u = ( Float64(i) + random_double() ) / (width - 1)
+                v = ( Float64(j) + random_double() ) / (height - 1)
                 r = get_ray(cam, u, v)
                 pixel_color += ray_color(r, world, max_depth)
             end
             write_color(file, pixel_color)
-    end
+        end
     end
 end
 
@@ -91,17 +92,17 @@ function final_scene()
                     # diffuse
                     albedo = color(random()) * color(random())
                     sphere_material = lambertian(albedo)
-                    push!(world.objects, sphere(center, 0.2, sphere_material))
+                    # push!(world.objects, sphere(center, 0.2, sphere_material))
                 elseif(choose_mat < 0.95)
                     # metal
                     albedo = color(random(0.5, 1.0))
                     fuzz = random_double(0.0, 0.5)
                     sphere_material = metal(albedo, fuzz)
-                    push!(world.objects, sphere(center, 0.2, sphere_material))
+                    # push!(world.objects, sphere(center, 0.2, sphere_material))
                 else
                     # glass
-                    sphere_material = dielectric(1.5)
-                    push!(world.objects, sphere(center, 0.2, sphere_material))
+                    # sphere_material = dielectric(1.5)
+                    # push!(world.objects, sphere(center, 0.2, sphere_material))
                 end
             end
         end
@@ -144,5 +145,8 @@ cam = camera(
     SA_F64[3, 3, 2], SA_F64[0, 0, -1], SA_F64[0, 1, 0], 20, 16.0 / 9.0, 2, norm(SA_F64[3, 3, 2] - SA_F64[0, 0, -1])
 )
 
+rec_buf = hit_record()
+sd_buf = scatter_data(color(), ray())
+
 file = open("image.ppm", "w")
-@time gen_img(width, height, file, world)
+gen_img(width, height, file, world)

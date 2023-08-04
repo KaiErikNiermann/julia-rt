@@ -8,12 +8,12 @@ struct color
     color() = new(0.0, 0.0, 0.0)
 end
 
-function random()::SA_F64
-    return SA_F64[random_double(), random_double(), random_double()]
+function random()::SVector{3,Float64}
+    return SVector{3,Float64}(random_double(), random_double(), random_double())
 end
 
-function random(min::Float64, max::Float64)
-    return [random_double(min, max), random_double(min, max), random_double(min, max)]
+function random(min::Float64, max::Float64)::SVector{3,Float64}
+    return SVector{3,Float64}(random_double(min, max), random_double(min, max), random_double(min, max))
 end
 
 function my_clamp(x::Float64, min::Float64, max::Float64)::Float64
@@ -63,9 +63,8 @@ function random_in_hemisphere(normal::SVector{3,Float64})::SVector{3,Float64}
     in_unit_sphere = random_in_unit_sphere()
     if(dot(in_unit_sphere, normal) > 0.0)
         return in_unit_sphere
-    else 
-        return -in_unit_sphere
-    end
+    end 
+    return -in_unit_sphere
 end 
 
 function near_zero(vec::SVector{3,Float64})::Bool

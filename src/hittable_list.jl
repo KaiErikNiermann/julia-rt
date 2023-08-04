@@ -1,7 +1,7 @@
-struct hittable_list 
+struct hittable_list
     objects::Vector{hittable}
     function hittable_list()
-        objects::Vector{hittable} = [] 
+        objects::Vector{hittable} = []
         new(objects)
     end
 end

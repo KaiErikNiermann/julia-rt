@@ -10,9 +10,9 @@ struct metal <: material
     metal(a::color) = new(a, 0.0)
     function metal(a::color, f::Float64)
         if(f < 1)
-            new(a, f)
-        else
-            new(a, 1.0)
+            return new(a, f)
+        else 
+            return new(a, 1.0)
         end
     end
 end
