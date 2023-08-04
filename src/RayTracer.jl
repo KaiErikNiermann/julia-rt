@@ -2,22 +2,22 @@ import Base: +, -, *
 
 # Rendering code
 function +(c1::color, c2::color)::color
-    color([c1.r + c2.r, c1.g + c2.g, c1.b + c2.b])
+    color(SA_F64[c1.r + c2.r, c1.g + c2.g, c1.b + c2.b])
 end
 
 function *(t::Float64, c::color)::color
-    color([t * c.r, t * c.g, t * c.b])
+    color(SA_F64[t * c.r, t * c.g, t * c.b])
 end
 
 function *(c1::color, c2::color)::color
-    color([c1.r * c2.r, c1.g * c2.g, c1.b * c2.b])
+    color(SA_F64[c1.r * c2.r, c1.g * c2.g, c1.b * c2.b])
 end
 
 function ray_color(r::ray, world::hittable_list, depth)::color
     rec = hit_record()
 
     if(depth <= 0)
-        return color([0.0, 0.0, 0.0])
+        return color(SA_F64[0.0, 0.0, 0.0])
     end
 
     # 0.001 to avoid shadow acne
@@ -26,11 +26,11 @@ function ray_color(r::ray, world::hittable_list, depth)::color
         if(scatter(rec.mat, r, rec, sd))
             return sd.attenuation * ray_color(sd.scattered, world, depth - 1)
         end
-        return color([0.0, 0.0, 0.0])
+        return color(SA_F64[0.0, 0.0, 0.0])
     end
     unit_direction = r.direction/norm(r.direction)
     t = 0.5 * (unit_direction[1] + 1.0)
-    color((1.0 - t) * [1.0, 1.0, 1.0] + t * [0.5, 0.7, 1.0])
+    color((1.0 - t) * SA_F64[1.0, 1.0, 1.0] + t * SA_F64[0.5, 0.7, 1.0])
 end
 
 function write_color(file, c::color)
@@ -80,13 +80,13 @@ max_depth = 50
 
 function final_scene()
     world = hittable_list()
-    ground_material = lambertian(color([0.5, 0.5, 0.5]))
-    push!(world.objects, sphere([0.0, -1000.0, 0.0], 1000.0, ground_material))
+    ground_material = lambertian(color(SA_F64[0.5, 0.5, 0.5]))
+    push!(world.objects, sphere(SA_F64[0.0, -1000.0, 0.0], 1000.0, ground_material))
     for a in -11:1:11
         for b in -11:1:11
             choose_mat = random_double()
-            center = [a + 0.9 * random_double(), 0.2, b + 0.9 * random_double()]
-            if(norm(center - [4.0, 0.2, 0.0]) > 0.9)
+            center = SA_F64[a + 0.9 * random_double(), 0.2, b + 0.9 * random_double()]
+            if(norm(center - SA_F64[4.0, 0.2, 0.0]) > 0.9)
                 if(choose_mat < 0.8)
                     # diffuse
                     albedo = color(random()) * color(random())
@@ -108,28 +108,28 @@ function final_scene()
     end
 
     material1 = dielectric(1.5)
-    push!(world.objects, sphere([0.0, 1.0, 0.0], 1.0, material1))
+    push!(world.objects, sphere(SA_F64[0.0, 1.0, 0.0], 1.0, material1))
 
-    material2 = lambertian(color([0.4, 0.2, 0.1]))
-    push!(world.objects, sphere([-4.0, 1.0, 0.0], 1.0, material2))
+    material2 = lambertian(color(SA_F64[0.4, 0.2, 0.1]))
+    push!(world.objects, sphere(SA_F64[-4.0, 1.0, 0.0], 1.0, material2))
 
-    material3 = metal(color([0.7, 0.6, 0.5]), 0.0)
-    push!(world.objects, sphere([4.0, 1.0, 0.0], 1.0, material3))
+    material3 = metal(color(SA_F64[0.7, 0.6, 0.5]), 0.0)
+    push!(world.objects, sphere(SA_F64[4.0, 1.0, 0.0], 1.0, material3))
     world
 end
 
 function basic_scene()
     world = hittable_list()
-    ground_materal = lambertian(color([0.8, 0.8, 0.0]))
-    center_material = lambertian(color([0.1, 0.2, 0.5]))
+    ground_materal = lambertian(color(SA_F64[0.8, 0.8, 0.0]))
+    center_material = lambertian(color(SA_F64[0.1, 0.2, 0.5]))
     left_material= dielectric(1.5)
-    right_material = metal(color([0.8, 0.6, 0.2]), 0.0)
+    right_material = metal(color(SA_F64[0.8, 0.6, 0.2]), 0.0)
 
-    push!(world.objects, sphere([0.0, -100.5, -1.0], 100.0, ground_materal))
-    push!(world.objects, sphere([0.0, 0.0, -1.0], 0.5, center_material))
-    push!(world.objects, sphere([-1.0, 0.0, -1.0], 0.5, left_material))
-    push!(world.objects, sphere([-1.0, 0.0, -1.0], -0.45, left_material))
-    push!(world.objects, sphere([1.0, 0.0, -1.0], 0.5, right_material))
+    push!(world.objects, sphere(SA_F64[0.0, -100.5, -1.0], 100.0, ground_materal))
+    push!(world.objects, sphere(SA_F64[0.0, 0.0, -1.0], 0.5, center_material))
+    push!(world.objects, sphere(SA_F64[-1.0, 0.0, -1.0], 0.5, left_material))
+    push!(world.objects, sphere(SA_F64[-1.0, 0.0, -1.0], -0.45, left_material))
+    push!(world.objects, sphere(SA_F64[1.0, 0.0, -1.0], 0.5, right_material))
     world
 end
 
@@ -137,11 +137,11 @@ end
 world = basic_scene()
 
 # cam = camera(
-#     [13.0, 2.0, 3.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0], 20, 16.0 / 9.0, 10.0, 0.1
+#     SA_F64[13.0, 2.0, 3.0], SA_F64[0.0, 0.0, 0.0], SA_F64[0.0, 1.0, 0.0], 20, 16.0 / 9.0, 10.0, 0.1
 # )
 
 cam = camera(
-    [3, 3, 2], [0, 0, -1], [0, 1, 0], 20, 16.0 / 9.0, 2, norm([3, 3, 2] - [0, 0, -1])
+    SA_F64[3, 3, 2], SA_F64[0, 0, -1], SA_F64[0, 1, 0], 20, 16.0 / 9.0, 2, norm(SA_F64[3, 3, 2] - SA_F64[0, 0, -1])
 )
 
 file = open("image.ppm", "w")

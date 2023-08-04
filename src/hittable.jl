@@ -1,15 +1,15 @@
 mutable struct hit_record
-    p::Vector{Float64}
-    normal::Vector{Float64}
+    p::SVector{3,Float64}
+    normal::SVector{3,Float64}
     mat::material
     t::Float64
     front_face::Bool
     function hit_record()
-        new([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], lambertian(color([0.0, 0.0, 0.0])),0.0, false)
+        new(SA_F64[0.0, 0.0, 0.0], SA_F64[0.0, 0.0, 0.0], lambertian(color(SA_F64[0.0, 0.0, 0.0])),0.0, false)
     end
 end
 
-function set_face_normal!(rec::hit_record, r::ray, outward_normal::Vector{Float64})
+function set_face_normal!(rec::hit_record, r::ray, outward_normal::SVector{3,Float64})
     rec.front_face = dot(r.direction, outward_normal) < 0
     if(rec.front_face)
         # ray is outside
@@ -46,7 +46,7 @@ function scatter(mat::metal, r_in::ray, rec::hit_record, sd::scatter_data)::Bool
 end
 
 function scatter(mat::dielectric, r_in::ray, rec::hit_record, sd::scatter_data)::Bool
-    sd.attenuation = color([1.0, 1.0, 1.0])
+    sd.attenuation = color(SA_F64[1.0, 1.0, 1.0])
     refraction_ratio = rec.front_face ? (1.0 / mat.ir) : mat.ir
 
     unit_direction = r_in.direction/norm(r_in.direction)
@@ -54,7 +54,7 @@ function scatter(mat::dielectric, r_in::ray, rec::hit_record, sd::scatter_data):
     sin_theta = sqrt(1.0 - cos_theta^2)
 
     cannot_refract = refraction_ratio * sin_theta > 1.0
-    dir = [0.0, 0.0, 0.0]
+    dir = SA_F64[0.0, 0.0, 0.0]
     if(cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double())
         dir = reflect(unit_direction, rec.normal)
     else

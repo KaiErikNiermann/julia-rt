@@ -2,14 +2,14 @@ struct color
     r::Float64
     g::Float64
     b::Float64
-    function color(c::Vector{Float64})
+    function color(c::SVector{3,Float64})
         new(c[1], c[2], c[3])
     end
     color() = new(0.0, 0.0, 0.0)
 end
 
-function random()::Vector{Float64}
-    return [random_double(), random_double(), random_double()]
+function random()::SA_F64
+    return SA_F64[random_double(), random_double(), random_double()]
 end
 
 function random(min::Float64, max::Float64)
@@ -59,7 +59,7 @@ function random_in_unit_disk()
     end
 end
 
-function random_in_hemisphere(normal::Vector{Float64})::Vector{Float64}
+function random_in_hemisphere(normal::SVector{3,Float64})::SVector{3,Float64}
     in_unit_sphere = random_in_unit_sphere()
     if(dot(in_unit_sphere, normal) > 0.0)
         return in_unit_sphere
@@ -68,16 +68,16 @@ function random_in_hemisphere(normal::Vector{Float64})::Vector{Float64}
     end
 end 
 
-function near_zero(vec::Vector{Float64})::Bool
+function near_zero(vec::SVector{3,Float64})::Bool
     s = 1e-8
     return (abs(vec[1]) < s) && (abs(vec[2]) < s) && (abs(vec[3]) < s)
 end
 
-function reflect(v::Vector{Float64}, n::Vector{Float64})::Vector{Float64}
+function reflect(v::SVector{3,Float64}, n::SVector{3,Float64})::SVector{3,Float64}
     v + 2.0 * dot(-n, v) * n
 end
 
-function refract(uv::Vector{Float64}, n::Vector{Float64}, r::Float64)::Vector{Float64} 
+function refract(uv::SVector{3,Float64}, n::SVector{3,Float64}, r::Float64)::SVector{3,Float64} 
     cos_theta = min(dot(-uv, n), 1)
     r_out_perp = r * (uv + cos_theta * n)
     r_out_parallel = -sqrt(abs(1.0 - r^2 * (1 - cos_theta^2))) * n

@@ -1,11 +1,11 @@
 struct camera 
-    origin::Vector{Float64}
-    lower_left_corner::Vector{Float64}
-    horizontal::Vector{Float64}
-    vertical::Vector{Float64}
-    u::Vector{Float64}
-    v::Vector{Float64}
-    w::Vector{Float64}
+    origin::SVector{3,Float64}
+    lower_left_corner::SVector{3,Float64}
+    horizontal::SVector{3,Float64}
+    vertical::SVector{3,Float64}
+    u::SVector{3,Float64}
+    v::SVector{3,Float64}
+    w::SVector{3,Float64}
     lens_radius::Float64
     function camera(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, focus_dist)
         theta = vfov * ( pi / 180 )
