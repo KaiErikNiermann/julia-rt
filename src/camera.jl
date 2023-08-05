@@ -13,7 +13,7 @@ struct camera
         viewport_height = 2.0 * h
         viewport_width = aspect_ratio * viewport_height
 
-        w = (lookfrom - lookat) / norm(lookfrom - lookat)
+        w = normalize(lookfrom - lookat)
         u = (cross(vup, w)) / norm(cross(vup, w))
         v = cross(w, u) 
 
@@ -27,7 +27,7 @@ struct camera
     end
 end 
 
-function get_ray(cam::camera, u::Float64, v::Float64)
+@inline function get_ray(cam::camera, u::Float64, v::Float64)
     rd = cam.lens_radius * random_in_unit_disk()
     offset = (cam.u * rd[1]) + (cam.v * rd[2])
     ray(

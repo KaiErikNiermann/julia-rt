@@ -9,11 +9,7 @@ struct metal <: material
     fuzz::Float64   
     metal(a::color) = new(a, 0.0)
     function metal(a::color, f::Float64)
-        if(f < 1)
-            return new(a, f)
-        else 
-            return new(a, 1.0)
-        end
+        f < 1 ? new(a, f) : new(a, 1.0)
     end
 end
 

@@ -21,20 +21,19 @@ end
 
 function write_color(file, c::color)
     # Divide the color by the number of samples and gamma-correct 
-    scale::Float16 = 1.0 / sc.img.samples_per_pixel
-    r::Float16 = sqrt(scale * c.r)
-    g::Float16 = sqrt(scale * c.g)
-    b::Float16 = sqrt(scale * c.b)
+    r::Float16 = sqrt(SCALE * c.r)
+    g::Float16 = sqrt(SCALE * c.g)
+    b::Float16 = sqrt(SCALE * c.b)
 
-    write(file, string(256 * clamp(r, 0.0, 0.999), " "
-                     , 256 * clamp(g, 0.0, 0.999), " "
-                     , 256 * clamp(b, 0.0, 0.999), "\n"))
+    write(file, string(256 * clamp.(r, 0.0, 0.999), " "
+                     , 256 * clamp.(g, 0.0, 0.999), " "
+                     , 256 * clamp.(b, 0.0, 0.999), "\n"))
 end
 
-function gen_img(width, height, file, world::hittable_list, img::image) 
+function gen_img(width::Int64, height::Int64, file, world::hittable_list, img::image) 
     max_depth = img.max_depth
     spp = img.samples_per_pixel
-    c = sc.cam
+    c = SC.cam
     write(file, "P3\n$width $height\n255\n")
     for j in height-1:-1:0
         println(stderr, "Scanlines remaining: $j")
@@ -54,10 +53,12 @@ end
 rec_buf = hit_record()
 sd_buf = scatter_data(color(), ray())
 
-sc = basic_scene()
-# sc = final_scene()
+# const SC = final_scene()
+const SC = basic_scene()
+const SCALE::Float16 = 1.0 / SC.img.samples_per_pixel
+
 file = open("image.ppm", "w")
 
-# ProfileView.@profview gen_img(sc.img.width, sc.img.height, file, sc.world, sc.img)
-@time gen_img(sc.img.width, sc.img.height, file, sc.world, sc.img)
+# ProfileView.@profview gen_img(SC.img.width, SC.img.height, file, SC.world, SC.img)
+@time gen_img(SC.img.width, SC.img.height, file, SC.world, SC.img)
 

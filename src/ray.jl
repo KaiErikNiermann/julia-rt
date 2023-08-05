@@ -7,6 +7,5 @@ struct ray
     ray() = new(SA_F64[0.0, 0.0, 0.0], SA_F64[0.0, 0.0, 0.0])
 end
 
-function at(r::ray, t::Float64)::SVector{3,Float64} 
-    r.origin + t * r.direction
-end 
+at(r::ray, t::Float64)::SVector{3,Float64} = r.origin + t * r.direction
+ 
