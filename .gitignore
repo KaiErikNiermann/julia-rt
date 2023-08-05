@@ -14,5 +14,6 @@
 *.tex
 *.pdf
 
-#julia specific 
+#project specific 
 *.mem
+*.ppm

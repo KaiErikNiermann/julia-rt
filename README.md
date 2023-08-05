@@ -28,15 +28,27 @@ Generated with `julia scripts/basic_normals`
 
 ### Surface normals with AA
 
+Generated using `scripts/basic_proj` @ commit `257c5cd3cbf507299bcb9677d786cb984bb66bd0`
+
 ![normals_w_AA](assets/normals_with_AA.png)
 
-### Lambertian
+### Lambertian 
+
+Generated using `scripts/basic_proj` @ commit `cee94f5dd9f1c15bfea6616898079167c33d4b8d`
 
 ![lambertian](assets/correct_lambertian.png)
 
 ### Fuzzed metals
 
+Generated using `scripts/basic_proj` @ commit `988b814b8a6d8f9ecb5b996979471f70d4fe3523`
+
 ![fuzzed_metal](assets/fuzzed_metals.png)
+
+### Refraction
+
+Generated using `scripts/basic_proj` @ commit `988b814b8a6d8f9ecb5b996979471f70d4fe3523`
+
+![refraction_demo](assets/refraction.png)
 
 ## References
 
