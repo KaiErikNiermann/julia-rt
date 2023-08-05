@@ -1,54 +1,38 @@
 import Base: +, -, *
 
 struct color
-    r::Float64
-    g::Float64
-    b::Float64
-    function color(c::SVector{3,Float64})
+    r::Float32
+    g::Float32
+    b::Float32
+    function color(c)
         new(c[1], c[2], c[3])
     end
     color() = new(0.0, 0.0, 0.0)
 end
 
-function +(c1::color, c2::color)::color
-    color(SA_F64[c1.r + c2.r, c1.g + c2.g, c1.b + c2.b])
-end
++(c1::color, c2::color)::color = color(SA_F32[c1.r .+ c2.r, c1.g .+ c2.g, c1.b .+ c2.b])
 
-function *(t::Float64, c::color)::color
-    color(SA_F64[t * c.r, t * c.g, t * c.b])
-end
+*(t::Float64, c::color)::color = color(SA_F32[t .* c.r, t .* c.g, t .* c.b])
 
-function *(c1::color, c2::color)::color
-    color(SA_F64[c1.r * c2.r, c1.g * c2.g, c1.b * c2.b])
-end
+*(c1::color, c2::color)::color = color(SA_F32[c1.r .* c2.r, c1.g .* c2.g, c1.b .* c2.b])
 
-function random()::SVector{3,Float64}
+@inline function random()::SVector{3,Float64}
     return SVector{3,Float64}(random_double(), random_double(), random_double())
 end
 
-function random(min::Float64, max::Float64)::SVector{3,Float64}
+@inline function random(min::Float64, max::Float64)::SVector{3,Float64}
     return SVector{3,Float64}(random_double(min, max), random_double(min, max), random_double(min, max))
 end
 
-function my_clamp(x::Float64, min::Float64, max::Float64)::Float64
-    if(x < min)
-        return min
-    end
-    if(x > max)
-        return max
-    end
-    return x
-end
-
-function random_double()::Float64
+@inline function random_double()::Float64
     rand(Uniform(0.0, 1.0))
 end
 
-function random_double(min::Float64, max::Float64)::Float64
+@inline function random_double(min::Float64, max::Float64)::Float64
     rand(Uniform(min, max))
 end
 
-function random_in_unit_sphere()
+@inline function random_in_unit_sphere()
     while true
         p = random(-1.0, 1.0)
         if(norm(p) >= 1.0)  
@@ -58,12 +42,11 @@ function random_in_unit_sphere()
     end
 end
 
-function random_unit_vector()
-    rv = random_in_unit_sphere()
-    return rv/norm(rv)
+@inline function random_unit_vector()
+    return normalize(random_in_unit_sphere())
 end
 
-function random_in_unit_disk()
+@inline function random_in_unit_disk()
     while(true)
         p = SA_F64[random_double(-1.0, 1.0), random_double(-1.0, 1.0), 0]
         if(dot(p, p) >= 1)
@@ -73,7 +56,7 @@ function random_in_unit_disk()
     end
 end
 
-function random_in_hemisphere(normal::SVector{3,Float64})::SVector{3,Float64}
+@inline function random_in_hemisphere(normal::SVector{3,Float64})::SVector{3,Float64}
     in_unit_sphere = random_in_unit_sphere()
     if(dot(in_unit_sphere, normal) > 0.0)
         return in_unit_sphere
@@ -81,23 +64,21 @@ function random_in_hemisphere(normal::SVector{3,Float64})::SVector{3,Float64}
     return -in_unit_sphere
 end 
 
-function near_zero(vec::SVector{3,Float64})::Bool
+@inline function near_zero(vec::SVector{3,Float64})::Bool
     s = 1e-8
     return (abs(vec[1]) < s) && (abs(vec[2]) < s) && (abs(vec[3]) < s)
 end
 
-function reflect(v::SVector{3,Float64}, n::SVector{3,Float64})::SVector{3,Float64}
-    v + 2.0 * dot(-n, v) * n
-end
+reflect(v::SVector{3,Float64}, n::SVector{3,Float64})::SVector{3,Float64} = v + 2.0 * dot(-n, v) * n
 
-function refract(uv::SVector{3,Float64}, n::SVector{3,Float64}, r::Float64)::SVector{3,Float64} 
+@inline function refract(uv::SVector{3,Float64}, n::SVector{3,Float64}, r::Float64)::SVector{3,Float64} 
     cos_theta = min(dot(-uv, n), 1)
     r_out_perp = r * (uv + cos_theta * n)
     r_out_parallel = -sqrt(abs(1.0 - r^2 * (1 - cos_theta^2))) * n
     r_out_perp + r_out_parallel
 end
 
-function reflectance(cosine, ref_idx)
+@inline function reflectance(cosine, ref_idx)
     r0 = ((1 - ref_idx) / (1 + ref_idx))^2
     r0 + (1 - r0) * (1 - cosine)^5
 end

@@ -32,7 +32,7 @@ Generated using `scripts/basic_proj` @ commit `257c5cd3cbf507299bcb9677d786cb984
 
 ![normals_w_AA](assets/normals_with_AA.png)
 
-### Lambertian 
+### Lambertian
 
 Generated using `scripts/basic_proj` @ commit `cee94f5dd9f1c15bfea6616898079167c33d4b8d`
 

@@ -19,7 +19,7 @@ function final_scene()::scene
     max_depth = 50
 
     world = hittable_list()
-    ground_material = lambertian(color(SA_F64[0.5, 0.5, 0.5]))
+    ground_material = lambertian(color(SA_F32[0.5, 0.5, 0.5]))
     push!(world.objects, sphere(SA_F64[0.0, -1000.0, 0.0], 1000.0, ground_material))
     for a in -11:1:11
         for b in -11:1:11
@@ -49,10 +49,10 @@ function final_scene()::scene
     material1 = dielectric(1.5)
     push!(world.objects, sphere(SA_F64[0.0, 1.0, 0.0], 1.0, material1))
 
-    material2 = lambertian(color(SA_F64[0.4, 0.2, 0.1]))
+    material2 = lambertian(color(SA_F32[0.4, 0.2, 0.1]))
     push!(world.objects, sphere(SA_F64[-4.0, 1.0, 0.0], 1.0, material2))
 
-    material3 = metal(color(SA_F64[0.7, 0.6, 0.5]), 0.0)
+    material3 = metal(color(SA_F32[0.7, 0.6, 0.5]), 0.0)
     push!(world.objects, sphere(SA_F64[4.0, 1.0, 0.0], 1.0, material3))
     
     cam = camera(
@@ -72,10 +72,10 @@ function basic_scene()::scene
 
     # world
     world = hittable_list()
-    ground_materal = lambertian(color(SA_F64[0.8, 0.8, 0.0]))
-    center_material = lambertian(color(SA_F64[0.1, 0.2, 0.5]))
+    ground_materal = lambertian(color(SA_F32[0.8, 0.8, 0.0]))
+    center_material = lambertian(color(SA_F32[0.1, 0.2, 0.5]))
     left_material= dielectric(1.5)
-    right_material = metal(color(SA_F64[0.8, 0.6, 0.2]), 0.0)
+    right_material = metal(color(SA_F32[0.8, 0.6, 0.2]), 0.0)
 
     push!(world.objects, sphere(SA_F64[0.0, -100.5, -1.0], 100.0, ground_materal))
     push!(world.objects, sphere(SA_F64[0.0, 0.0, -1.0], 0.5, center_material))
