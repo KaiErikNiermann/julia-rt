@@ -13,3 +13,6 @@
 # misc 
 *.tex
 *.pdf
+
+#julia specific 
+*.mem

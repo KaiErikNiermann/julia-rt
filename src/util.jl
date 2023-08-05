@@ -1,3 +1,5 @@
+import Base: +, -, *
+
 struct color
     r::Float64
     g::Float64
@@ -6,6 +8,18 @@ struct color
         new(c[1], c[2], c[3])
     end
     color() = new(0.0, 0.0, 0.0)
+end
+
+function +(c1::color, c2::color)::color
+    color(SA_F64[c1.r + c2.r, c1.g + c2.g, c1.b + c2.b])
+end
+
+function *(t::Float64, c::color)::color
+    color(SA_F64[t * c.r, t * c.g, t * c.b])
+end
+
+function *(c1::color, c2::color)::color
+    color(SA_F64[c1.r * c2.r, c1.g * c2.g, c1.b * c2.b])
 end
 
 function random()::SVector{3,Float64}
@@ -51,7 +65,7 @@ end
 
 function random_in_unit_disk()
     while(true)
-        p = [random_double(-1.0, 1.0), random_double(-1.0, 1.0), 0]
+        p = SA_F64[random_double(-1.0, 1.0), random_double(-1.0, 1.0), 0]
         if(dot(p, p) >= 1)
             continue
         end
