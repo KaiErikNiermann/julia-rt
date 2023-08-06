@@ -36,7 +36,7 @@ function gen_img(width::Int64, height::Int64, file, world::hittable_list, img::i
     c = SC.cam
     write(file, "P3\n$width $height\n255\n")
     for j in height-1:-1:0
-        println(stderr, "Scanlines remaining: $j")
+        println(stderr, "Scanlines remaining: ", j)
         for i in 0:1:width-1
             pixel_color = color(SA_F32[0.0, 0.0, 0.0])
             for _ in 1:1:spp
@@ -61,4 +61,3 @@ file = open("image.ppm", "w")
 
 # ProfileView.@profview gen_img(SC.img.width, SC.img.height, file, SC.world, SC.img)
 @time gen_img(SC.img.width, SC.img.height, file, SC.world, SC.img)
-

@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 Example = "7876af07-990d-54b4-ab0e-23690620f79a"
+JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
 PProf = "e4faabce-9ead-11e9-39d9-4379958e3056"
 ProfileView = "c46f51b8-102a-5cf2-8d2c-8597cb0e0da7"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
